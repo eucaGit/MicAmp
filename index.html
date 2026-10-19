@@ -122,12 +122,12 @@ footer em{font-style:normal;color:var(--gold2)}
 
   <section>
     <h2><b>叁</b>回声与啸叫</h2>
-    <div class="sw"><span>回声消除<small>防止音箱声被麦克风重新收进去</small></span><input type="checkbox" id="aec" checked></div>
+    <div class="sw"><span>系统回声消除<small>开启会让安卓把声音强制切到手机喇叭，用蓝牙音箱请保持关闭</small></span><input type="checkbox" id="aec"></div>
     <div class="sw"><span>降噪<small>过滤风声、空调等背景噪音</small></span><input type="checkbox" id="ns" checked></div>
     <div class="sw"><span>自动增益<small>关闭更稳，避免底噪被放大</small></span><input type="checkbox" id="agc"></div>
     <div class="sw"><span>啸叫抑制<small>检测到尖叫自动陷波并降音量</small></span><input type="checkbox" id="fb" checked></div>
     <div class="sw"><span>低切滤波<small>去除 120Hz 以下嗡嗡声</small></span><input type="checkbox" id="hp" checked></div>
-    <p class="tip">麦克风远离音箱、音箱勿朝向麦克风，是防啸叫最有效的办法。</p>
+    <p class="tip">已关闭系统回声消除以保证声音走蓝牙音箱，啸叫由“啸叫抑制”处理。麦克风远离音箱、音箱勿朝向麦克风，是防啸叫最有效的办法。</p>
   </section>
 </main>
 <footer><em>GAEA REALTY</em> · 家易地产</footer>
@@ -145,7 +145,7 @@ const store = {
 };
 const saved = store.get();
 for (const id of ['vol','gate']) if (saved[id] != null) $(id).value = saved[id];
-for (const id of ['aec','ns','agc','fb','hp']) if (saved[id] != null) $(id).checked = saved[id];
+for (const id of ['ns','agc','fb','hp']) if (saved[id] != null) $(id).checked = saved[id];
 
 function say(t, cls=''){ const m=$('msg'); m.textContent=t; m.className=cls; }
 
@@ -158,8 +158,8 @@ async function listDevices(){
   fill($('outSel'), outs, saved.outId, '系统默认输出（跟随蓝牙）');
   $('outSel').disabled = !HAS_SINK;
   $('outTip').textContent = HAS_SINK
-    ? '若列表里没有音箱，请先在手机系统里连接蓝牙，再点 ↻。'
-    : '此浏览器无法在网页内切换输出：请在手机系统蓝牙里连接音箱，声音会自动从音箱出。';
+    ? '若列表里没有音箱，是手机系统不开放：请在系统蓝牙连好音箱，声音会自动走音箱。'
+    : '手机浏览器不能在网页内选输出：请在系统蓝牙连好音箱，声音会自动走音箱（与 YouTube 相同）。';
 }
 function fill(sel, list, want, defLabel){
   const prev = sel.value || want || '';
